@@ -22,7 +22,7 @@ async function defineAbilitiesFor(ctx, options) {
 		params: { user },
 	} = ctx;
 
-	const role = user ? user.roles : null;
+	const role = user ? user.role : null;
 
 	if (role === 'admin') {
 		// noinspection JSCheckFunctionSignatures
