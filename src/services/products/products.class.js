@@ -1,3 +1,5 @@
-const { Service } = require('feathers-sequelize');
+const { Service } = require('feathers-mongoose');
 
-exports.Products = class Products extends Service {};
+exports.Products = class Products extends Service {
+  
+};

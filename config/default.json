@@ -28,5 +28,6 @@
       "passwordField": "password"
     }
   },
-  "sqlite": "sqlite://sqlite.sqlite"
+  "sqlite": "sqlite://sqlite.sqlite",
+  "mongodb": "mongodb://notnumber.com:27017/ostia"
 }

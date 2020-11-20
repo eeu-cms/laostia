@@ -1,40 +1,25 @@
-// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
+// orders-model.js - A mongoose model
+//
+// See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-const Sequelize = require('sequelize');
-const DataTypes = Sequelize.DataTypes;
-
 module.exports = function (app) {
-	const sequelizeClient = app.get('sequelizeClient');
-	const orders = sequelizeClient.define(
-		'orders',
-		{
-			client_id: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-			},
-			product_id: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-			},
-			status: {
-				type: DataTypes.ENUM('pending', 'complete', 'cancel'),
-				allowNull: false,
-			},
-		},
-		{
-			hooks: {
-				beforeCount(options) {
-					options.raw = true;
-				},
-			},
-		}
-	);
+  const modelName = 'orders';
+  const mongooseClient = app.get('mongooseClient');
+  const { Schema } = mongooseClient;
+  const schema = new Schema({
+    client_id: { type: mongooseClient.SchemaTypes.ObjectID, required: true },
+    product_id: { type: mongooseClient.SchemaTypes.ObjectID, required: true },
+    price: { type: Number, required: true },
+    status: { type: ['complete', 'pending', 'cancel'], required: true },
+  }, {
+    timestamps: true
+  });
 
-	// eslint-disable-next-line no-unused-vars
-	orders.associate = function (models) {
-		// Define associations here
-		// See http://docs.sequelizejs.com/en/latest/docs/associations/
-	};
+  // This is necessary to avoid model compilation errors in watch mode
+  // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel
+  if (mongooseClient.modelNames().includes(modelName)) {
+    mongooseClient.deleteModel(modelName);
+  }
+  return mongooseClient.model(modelName, schema);
 
-	return orders;
 };

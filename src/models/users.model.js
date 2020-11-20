@@ -1,49 +1,25 @@
-// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
+// users-model.js - A mongoose model
+//
+// See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-const Sequelize = require('sequelize');
-const DataTypes = Sequelize.DataTypes;
-
 module.exports = function (app) {
-	const sequelizeClient = app.get('sequelizeClient');
-	const users = sequelizeClient.define(
-		'users',
-		{
-			first_name: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			last_name: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			email: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				unique: true,
-			},
-			password: {
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-			rol: {
-				type: DataTypes.ENUM('admin', 'client'),
-				allowNull: false,
-			},
-		},
-		{
-			hooks: {
-				beforeCount(options) {
-					options.raw = true;
-				},
-			},
-		}
-	);
+  const modelName = 'users';
+  const mongooseClient = app.get('mongooseClient');
+  const { Schema } = mongooseClient;
+  const schema = new Schema({
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true }
+  }, {
+    timestamps: true
+  });
 
-	// eslint-disable-next-line no-unused-vars
-	users.associate = function (models) {
-		// Define associations here
-		// See http://docs.sequelizejs.com/en/latest/docs/associations/
-	};
+  // This is necessary to avoid model compilation errors in watch mode
+  // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel
+  if (mongooseClient.modelNames().includes(modelName)) {
+    mongooseClient.deleteModel(modelName);
+  }
+  return mongooseClient.model(modelName, schema);
 
-	return users;
 };
