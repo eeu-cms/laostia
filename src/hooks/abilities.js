@@ -64,7 +64,7 @@ async function defineAbilitiesFor(ctx, options) {
 					} else if (withAuthentication) {
 						const key = access.key || 'user_id';
 						// noinspection JSUnresolvedVariable
-						const key_model = access.key_model || 'id';
+						const key_model = access.key_model || '_id';
 
 						can_params.push({ [key]: user[key_model] });
 					}
@@ -78,11 +78,11 @@ async function defineAbilitiesFor(ctx, options) {
 
 	const Q = (() => {
 		async function isOwner() {
-			return { client_id: user.id };
+			return { client_id: user._id };
 		}
 
 		async function isSelf() {
-			return { id: user.id };
+			return { _id: user._id };
 		}
 
 		return {
