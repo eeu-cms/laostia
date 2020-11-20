@@ -28,5 +28,5 @@
       "passwordField": "password"
     }
   },
-  "mysql": "mysql://laostia:Fv7$bu80@18.233.128.146:3306/laostia"
+  "mysql": "mysql://fitway:Fv7$bu80@localhost:3306/fitway"
 }
