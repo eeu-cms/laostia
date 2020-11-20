@@ -28,5 +28,5 @@
       "passwordField": "password"
     }
   },
-  "mysql": "mysql://fitway:Fv7$bu80@localhost:3306/fitway"
+  "sqlite": "sqlite://sqlite.sqlite"
 }
